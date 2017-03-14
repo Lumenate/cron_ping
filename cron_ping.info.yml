@@ -1,0 +1,10 @@
+name: Cron Ping
+type: module
+description: Module for creating cron tasks that pings the site in certain time
+# core: 8.x
+configure: cron_ping.settings
+
+# Information added by Drupal.org packaging script on 2017-01-15
+version: '8.x-1.x-dev'
+core: '8.x'
+datestamp: 1484513889

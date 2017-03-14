@@ -1,0 +1,73 @@
+# This file brings everything together. Very nifty!
+
+# Route name can be used in sevaral place (links, redirects, local actions etc.)
+entity.cron_ping_record.canonical:
+  path: 'admin/cron_ping_record/{cron_ping_record}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the CronPingRecord entity
+    _entity_view: 'cron_ping_record'
+    _title: 'Cron Ping Record'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.cron_ping_record.collection:
+  path: 'admin/cron_ping_record/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the CronPingRecord entity.
+    _entity_list: 'cron_ping_record'
+    _title: 'Cron Ping Records'
+  requirements:
+    _permission: 'administer site configuration'
+
+cron_ping_record.cron_ping_record_add:
+  path: 'admin/cron_ping_record/add'
+  defaults:
+  # Calls the form.add controller, defined in the CronPingRecord entity.
+    _entity_form: cron_ping_record.add
+    _title: 'Add Cron Ping Record'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.cron_ping_record.edit_form:
+  path: 'admin/cron_ping_record/{cron_ping_record}/edit'
+  defaults:
+  # Calls the form.edit controller, defined in the CronPingRecord entity.
+    _entity_form: cron_ping_record.edit
+    _title: 'Edit Cron Ping Record'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.cron_ping_record.delete_form:
+  path: 'admin/cron_ping_record/{cron_ping_record}/delete'
+  defaults:
+    # Calls the form.delete controller, defined in the CronPingRecord entity.
+    _entity_form: cron_ping_record.delete
+    _title: 'Delete Cron Ping Record'
+  requirements:
+    _permission: 'administer site configuration'
+
+cron_ping.cron_ping_record_settings:
+  path: 'admin/config/cron_ping_settings'
+  defaults:
+    _form: '\Drupal\cron_ping\Form\CronPingRecordSettingsForm'
+    _title: 'Cron Ping Settings'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.cron_ping_log.canonical:
+  path: 'admin/cron_ping_log/{cron_ping_log}'
+  defaults:
+  # Calls the view controller, defined in the annotation of the CronPingLog entity
+    _entity_view: 'cron_ping_log'
+    _title: 'Cron Ping Log Entry'
+  requirements:
+    _permission: 'administer site configuration'
+
+entity.cron_ping_log.collection:
+  path: 'admin/cron_ping_log/list'
+  defaults:
+  # Calls the list controller, defined in the annotation of the CronPingLog entity.
+    _entity_list: 'cron_ping_log'
+    _title: 'Cron Ping Log'
+  requirements:
+    _permission: 'administer site configuration'

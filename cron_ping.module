@@ -1,0 +1,49 @@
+<?php
+
+use Drupal\cron_ping\Entity\CronPingLog;
+
+/**
+ * @file
+ * Contains Drupal\cron_ping\cron_ping.module
+ */
+
+/**
+ * Implements hook_cron().
+ */
+function cron_ping_cron() {
+  //get current time
+  $current_time = date('G', time());
+
+  //get all records that match current time
+  $query = \Drupal::entityQuery('cron_ping_record')
+    ->condition('start_time', $current_time, '<=')
+    ->condition('end_time', $current_time, '>=');
+  $result = $query->execute();
+
+  //deal with result
+  if($result) {
+    $record_entity_type_manager = \Drupal::entityTypeManager()->getStorage('cron_ping_record');
+    foreach($result as $key => $record_id) {
+      $record = $record_entity_type_manager->load($record_id);
+      $address = $record->address->value;
+
+      //execute ping functionality
+      if(!$address) continue;
+      $ch = curl_init($address);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+      curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_exec($ch);
+      $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      curl_close($ch);
+
+      //store result as cron_ping_log entity
+      $log_creation_array = array(
+        'address' => $address,
+        'result' => $httpcode,
+      );
+      $cron_ping_log = CronPingLog::create($log_creation_array);
+      $cron_ping_log->save();
+    }
+  }
+}
